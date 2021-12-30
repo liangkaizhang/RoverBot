@@ -38,7 +38,6 @@ class Actuator:
 
         if self._reversed:
             speed = -speed
-            steer = -steer
 
         speed = ct.c_int16(speed).value
         steer = ct.c_int16(steer).value

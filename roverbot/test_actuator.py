@@ -2,7 +2,6 @@ import time
 import threading
 
 from drivers.actuator import ActuatorConfig, Actuator
-from drivers.joystick import PS4Joystick
 
 MAX_SPEED = 300
 
@@ -13,7 +12,7 @@ class RoverDriver:
         config_rear = ActuatorConfig(port="/dev/ttyS1", reversed=True)
         self._actuator_rear = Actuator(config_rear)
         self._speed = 0
-        self._steer = 0
+        self._steer = 200
         self._rate_hz = 10
         self._is_on = True
         self._thread = None
@@ -41,20 +40,18 @@ class RoverDriver:
         self._is_on = False
 
 
-if __name__ == "__main__":
-    js = PS4Joystick()
-    assert js.init() == True
-    time.sleep(0.5)
 
+if __name__ == "__main__":
     driver = RoverDriver()
     driver.spin()
     while True:
-        button, button_state, axis, axis_val = js.poll()
-        if axis == "left_stick_vert":
-            print(f'{axis}: {axis_val}')
-            speed = int(-MAX_SPEED * axis_val)
-            driver.set_speed(speed)
-        if axis == "right_stick_horz":
-            print(f'{axis}: {axis_val}')
-            steer = int(-MAX_SPEED * axis_val)
-            driver.set_steer(steer)
+        pass
+        # button, button_state, axis, axis_val = js.poll()
+        # if axis == "left_stick_vert":
+        #     print(f'{axis}: {axis_val}')
+        #     speed = int(MAX_SPEED * axis_val)
+        #     driver.set_speed(speed)
+        # if axis == "right_stick_horz":
+        #     print(f'{axis}: {axis_val}')
+        #     steer = int(MAX_SPEED * axis_val)
+        #     driver.set_steer(steer)

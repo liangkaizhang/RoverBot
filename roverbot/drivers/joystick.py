@@ -134,11 +134,11 @@ class PS4Joystick(Joystick):
         self.axis_names = {
             0x00 : 'left_stick_horz',
             0x01 : 'left_stick_vert',
-            0x03 : 'right_stick_horz',
-            0x04 : 'right_stick_vert',
+            0x02 : 'right_stick_horz',
+            0x05 : 'right_stick_vert',
 
-            0x02 : 'left_trigger_axis',
-            0x05 : 'right_trigger_axis',
+            0x03 : 'left_trigger_axis',
+            0x04 : 'right_trigger_axis',
 
             0x10 : 'dpad_leftright',
             0x11 : 'dpad_updown',
@@ -154,13 +154,13 @@ class PS4Joystick(Joystick):
 
         self.button_names = {
 
-            0x134 : 'square',
-            0x130 : 'cross',
-            0x131 : 'circle',
+            0x130 : 'square',
+            0x131 : 'cross',
+            0x132 : 'circle',
             0x133 : 'triangle',
 
-            0x138 : 'L1',
-            0x139 : 'R1',
+            0x134 : 'L1',
+            0x135 : 'R1',
             0x136 : 'L2',
             0x137 : 'R2',
             0x13a : 'L3',
