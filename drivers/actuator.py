@@ -11,8 +11,6 @@ class ActuatorConfig:
     port: str
     baudrate: int = 115200
     reversed: bool = False
-    speed_coeff: float = 1.0
-    steer_coeff: float = 1.0
 
 
 @attr.s(frozen=True, auto_attribs=True)
@@ -22,8 +20,10 @@ class ActuatorStatus:
     battery_voltage: float
     temperature: float
 
-def CheckSum(data) -> int:
+
+def _check_sum(data) -> int:
     return ct.c_uint16(reduce(lambda x, y: x ^ y, data)).value
+
 
 class Actuator:
 
@@ -41,7 +41,7 @@ class Actuator:
 
         speed = ct.c_int16(speed).value
         steer = ct.c_int16(steer).value
-        checksum = CheckSum([self._start_frame, steer, speed])
+        checksum = _check_sum([self._start_frame, steer, speed])
         bytes = struct.pack('HhhH', self._start_frame, steer, speed, checksum)
         num_bytes = self._serial.write(bytes)
         return num_bytes == len(bytes)
@@ -54,7 +54,7 @@ class Actuator:
         for _ in range(7):
             data.append(self._read_data_frame())
         checksum = self._read_data_frame('H')
-        if checksum != CheckSum(data):
+        if checksum != _check_sum(data):
             return None
         status = ActuatorStatus(speed_right=-data[3],
                                 speed_left=data[4],
