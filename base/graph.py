@@ -1,5 +1,5 @@
-from infrastructure.node import Node
-from infrastructure.pubsub import PubSub
+from base.node import Node
+from base.pubsub import PubSub
 
 class Graph:
 

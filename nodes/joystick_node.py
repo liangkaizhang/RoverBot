@@ -2,8 +2,8 @@ import attr
 import time
 
 from drivers.joystick import PS4Joystick
-from infrastructure.node import Node
-from infrastructure.pubsub import PubSub
+from base.node import Node
+from base.pubsub import PubSub
 
 def _speed_handler(value: float) -> float:
     return -value

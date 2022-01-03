@@ -1,8 +1,8 @@
 import attr
 
 from drivers.actuator import ActuatorConfig, Actuator
-from infrastructure.node import Node
-from infrastructure.pubsub import PubSub
+from base.node import Node
+from base.pubsub import PubSub
 
 SPEED_LIMIT = 800
 

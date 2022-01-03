@@ -1,5 +1,5 @@
 
-from infrastructure.graph import Graph
+from base.graph import Graph
 from nodes.actuator_node import create_actuator_node
 from nodes.joystick_node import create_joystick_node
 
