@@ -13,5 +13,7 @@ class Graph:
     def spin(self):
         for node in self._nodes:
             node.start()
-        self._pubsub.spin()
+        self._pubsub.spin(num_threads=4)
+        while True:
+            pass
 
