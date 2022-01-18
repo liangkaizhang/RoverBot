@@ -1,9 +1,10 @@
 import attr
 from typing import Optional
-from functools import reduce
 import serial
 import struct
 import ctypes as ct
+
+from drivers.utils import check_sum
 
 
 @attr.s(frozen=True, auto_attribs=True)
@@ -19,10 +20,6 @@ class ActuatorStatus:
     speed_left: int
     battery_voltage: float
     temperature: float
-
-
-def _check_sum(data) -> int:
-    return ct.c_uint16(reduce(lambda x, y: x ^ y, data)).value
 
 
 class Actuator:
@@ -41,7 +38,7 @@ class Actuator:
 
         speed = ct.c_int16(speed).value
         steer = ct.c_int16(steer).value
-        checksum = _check_sum([self._start_frame, steer, speed])
+        checksum = check_sum([self._start_frame, steer, speed])
         bytes = struct.pack('HhhH', self._start_frame, steer, speed, checksum)
         num_bytes = self._serial.write(bytes)
         return num_bytes == len(bytes)
@@ -54,7 +51,7 @@ class Actuator:
         for _ in range(7):
             data.append(self._read_data_frame())
         checksum = self._read_data_frame('H')
-        if checksum != _check_sum(data):
+        if checksum != check_sum(data):
             return None
         status = ActuatorStatus(speed_right=-data[3],
                                 speed_left=data[4],

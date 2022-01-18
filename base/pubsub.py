@@ -18,7 +18,8 @@ class PubSub:
         self._should_run = True
 
     def publish(self, topic: str, msg):
-        self._queue.put((topic, msg))
+        for callback in self._topics_to_callbacks[topic]:
+            self._queue.put((callback, msg))
 
     def add_subscriber(self, topic: str, callback):
         self._topics_to_callbacks[topic].append(callback)
@@ -33,8 +34,7 @@ class PubSub:
 
     def _worker_fn(self):
         while self._should_run:
-            topic, msg = self._queue.get()
+            callback, msg = self._queue.get()
             self._queue.task_done()
-            for callback in self._topics_to_callbacks[topic]:
-                callback(msg)
+            callback(msg)
 
